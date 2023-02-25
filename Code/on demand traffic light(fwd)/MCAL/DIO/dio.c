@@ -7,7 +7,7 @@
 
 #include "dio.h"
 
-void DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
+int DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
 {
 	switch(portName)
 	{
@@ -20,6 +20,10 @@ void DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
 		{
 			set_pin(pinNumber, DDRA);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 		case PORT_B:
 		if (direction == IN)
@@ -29,6 +33,10 @@ void DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
 		else if(direction == OUT)
 		{
 			set_pin(pinNumber, DDRB);
+		}
+		else
+		{
+			return 1;
 		}
 		break;
 		case PORT_C:
@@ -40,6 +48,10 @@ void DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
 		{
 			set_pin(pinNumber, DDRC);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 		case PORT_D:
 		if(direction == IN)
@@ -50,11 +62,16 @@ void DIO_init(uint8_t pinNumber, uint8_t portName, uint8_t direction)
 		{
 			set_pin(pinNumber, DDRD);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 	}
+	return 0;
 }
 
-void DIO_read(uint8_t pinNumber, uint8_t portName, uint8_t *value){
+int DIO_read(uint8_t pinNumber, uint8_t portName, uint8_t *value){
 	switch(portName)
 	{
 		case PORT_A:
@@ -69,10 +86,13 @@ void DIO_read(uint8_t pinNumber, uint8_t portName, uint8_t *value){
 		case PORT_D:
 		*value = get_pin(pinNumber, PIND);
 		break;
+		default:
+		return 1;
 		
 	}
+	return 0;
 }
-void DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
+int DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
 	switch(portName)
 	{
 		case PORT_A:
@@ -84,6 +104,10 @@ void DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
 		{
 			set_pin(pinNumber, PORTA);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 		case PORT_B:
 		if(value == LOW)
@@ -93,6 +117,10 @@ void DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
 		else if(value == HIGH)
 		{
 			set_pin(pinNumber, PORTB);
+		}
+		else
+		{
+			return 1;
 		}
 		break;
 		case PORT_C:
@@ -104,6 +132,10 @@ void DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
 		{
 			set_pin(pinNumber, PORTC);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 		case PORT_D:
 		if(value == LOW)
@@ -114,11 +146,16 @@ void DIO_write(uint8_t pinNumber, uint8_t portName, uint8_t value){
 		{
 			set_pin(pinNumber, PORTD);
 		}
+		else
+		{
+			return 1;
+		}
 		break;
 	}
+	return 0;
 }
 
-void DIO_toggle(uint8_t pinNumber, uint8_t portName){
+int DIO_toggle(uint8_t pinNumber, uint8_t portName){
 	switch(portName){
 		case PORT_A:
 		toggle_pin(pinNumber, PORTA);
@@ -132,5 +169,8 @@ void DIO_toggle(uint8_t pinNumber, uint8_t portName){
 		case PORT_D:
 		toggle_pin(pinNumber, PORTC);
 		break;
+		default:
+		return 1;
 	}
+	return 0;
 }
